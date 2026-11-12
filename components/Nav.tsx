@@ -1,74 +1,121 @@
 "use client";
 
-import { motion, useMotionValueEvent, useScroll } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
+import { useMotionValueEvent, useScroll } from "motion/react";
 import { EASE } from "./motion";
 
 /* eslint-disable @next/next/no-img-element */
 
 const links = [
-  { label: "HOME", left: 297, href: "#top" },
-  { label: "SERVICES", left: 372, href: "#how-it-works" },
-  { label: "ABOUT US", left: 479, href: "#about" },
-  { label: "RESOURCES", left: 591, href: "#faq", chevron: true },
+  { label: "Home", href: "#top" },
+  { label: "Services", href: "#how-it-works" },
+  { label: "About us", href: "#about" },
+  { label: "Resources", href: "#faq" },
 ];
 
-/**
- * Sits over the hero exactly as designed, then sticks to the top of the
- * viewport on a frosted pill once the page scrolls.
- */
+/** Transparent over the hero, then a frosted bar once the page scrolls. */
 export default function Nav() {
   const { scrollY } = useScroll();
   const [stuck, setStuck] = useState(false);
-  useMotionValueEvent(scrollY, "change", (y) => setStuck(y > 30));
+  const [open, setOpen] = useState(false);
+  useMotionValueEvent(scrollY, "change", (y) => setStuck(y > 24));
+
+  const close = () => setOpen(false);
 
   return (
-    <div className="pointer-events-none sticky top-0 z-50 h-0">
+    <header className="fixed inset-x-0 top-0 z-50 w-full px-4 pt-3 md:px-10 md:pt-5">
       <motion.nav
-        initial={{ opacity: 0, y: -16 }}
+        initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.15, ease: EASE }}
-        className={`pointer-events-auto absolute left-1/2 h-[36px] w-[1002px] -translate-x-1/2 text-white transition-[top] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] max-md:w-[338px] ${
-          stuck ? "top-[20px] max-md:top-[16px]" : "top-[64px] max-md:top-[28px]"
+        transition={{ duration: 0.7, delay: 0.1, ease: EASE }}
+        className={`mx-auto flex max-w-[1240px] items-center justify-between gap-4 rounded-full border px-4 py-2.5 text-white transition-[background,box-shadow,border-color] duration-500 md:px-6 md:py-3 ${
+          stuck
+            ? "border-white/15 bg-[#06224a]/80 shadow-[0_12px_40px_-12px_rgba(3,20,50,0.55)] backdrop-blur-xl"
+            : "border-transparent bg-transparent"
         }`}
       >
-        <span
-          className={`absolute -inset-x-[24px] -inset-y-[11px] rounded-[30px] border border-white/15 bg-[#06224a]/75 shadow-[0_12px_40px_-12px_rgba(3,20,50,0.55)] backdrop-blur-[14px] transition-opacity duration-500 max-md:-inset-x-[12px] ${
-            stuck ? "opacity-100" : "opacity-0"
-          }`}
-        />
-        <a href="#top" className="absolute left-0 top-[2px] flex items-center gap-[6px]">
-          <img alt="" src="/img/logo-mark.png" className="h-[32px] w-[29px]" />
-          <span className="text-[23px] font-semibold leading-[26.45px]">ProvidiusTech</span>
-          <span className="absolute left-[181px] top-[2px] text-[8px] leading-[9.2px] tracking-[-0.24px]">™</span>
+        <a href="#top" className="flex items-center gap-2.5" onClick={close}>
+          <img alt="" src="/img/logo-mark.png" className="h-9 w-[34px] object-contain" />
+          <span className="relative text-[22px] font-semibold tracking-[-0.4px] md:text-[26px]">
+            Providiustech
+            <sup className="absolute -right-[10px] top-[2px] text-[9px] font-normal leading-none">™</sup>
+          </span>
         </a>
-        {links.map((l) => (
-          <a
-            key={l.label}
-            href={l.href}
-            className="group absolute top-[9px] text-[12px] font-medium leading-[13.8px] tracking-[1px] max-md:hidden"
-            style={{ left: l.left }}
+
+        <div className="hidden items-center gap-8 md:flex">
+          {links.map((l) => (
+            <a
+              key={l.label}
+              href={l.href}
+              className="group relative text-[13px] font-medium tracking-[0.3px] text-white/90 transition-colors hover:text-white"
+            >
+              {l.label}
+              <span className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-white/80 transition-transform duration-300 ease-out group-hover:scale-x-100" />
+            </a>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-2">
+          <motion.a
+            href="#contact"
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
+            className="hidden rounded-full bg-white px-5 py-2.5 text-[12px] font-semibold tracking-[0.2px] text-[#082249] sm:block"
           >
-            {l.label}
-            {l.chevron && (
-              <img
-                alt=""
-                src="/icons/nav-chevron.svg"
-                className="absolute left-[95px] top-[5px] h-[4.7px] w-[7.7px] transition-transform duration-300 group-hover:rotate-180"
+            CONTACT SALES
+          </motion.a>
+          <button
+            type="button"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            onClick={() => setOpen((o) => !o)}
+            className="grid size-10 place-items-center rounded-full bg-white/10 md:hidden"
+          >
+            <span className="relative block h-3 w-4">
+              <span
+                className={`absolute left-0 h-[2px] w-4 rounded bg-white transition-all duration-300 ${open ? "top-1/2 rotate-45" : "top-0"}`}
               />
-            )}
-            <span className="absolute -bottom-[6px] left-0 h-px w-full origin-left scale-x-0 bg-white/80 transition-transform duration-300 ease-out group-hover:scale-x-100" />
-          </a>
-        ))}
-        <motion.a
-          href="#contact"
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.97 }}
-          className="absolute right-0 top-0 flex h-[35px] w-[142px] items-center justify-center rounded-[22px] bg-white text-[12px] font-semibold leading-[13.8px] tracking-[-0.24px] text-[#082249] max-md:w-[118px] max-md:text-[11px]"
-        >
-          CONTACT SALES
-        </motion.a>
+              <span
+                className={`absolute left-0 top-1/2 h-[2px] w-4 -translate-y-1/2 rounded bg-white transition-opacity duration-300 ${open ? "opacity-0" : "opacity-100"}`}
+              />
+              <span
+                className={`absolute left-0 h-[2px] w-4 rounded bg-white transition-all duration-300 ${open ? "top-1/2 -rotate-45" : "top-full"}`}
+              />
+            </span>
+          </button>
+        </div>
       </motion.nav>
-    </div>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25, ease: EASE }}
+            className="mx-auto mt-2 flex max-w-[1240px] flex-col gap-1 rounded-3xl border border-white/15 bg-[#06224a]/90 p-3 text-white backdrop-blur-xl md:hidden"
+          >
+            {links.map((l) => (
+              <a
+                key={l.label}
+                href={l.href}
+                onClick={close}
+                className="rounded-2xl px-4 py-3 text-[15px] font-medium hover:bg-white/10"
+              >
+                {l.label}
+              </a>
+            ))}
+            <a
+              href="#contact"
+              onClick={close}
+              className="mt-1 rounded-full bg-white px-4 py-3 text-center text-[13px] font-semibold text-[#082249]"
+            >
+              CONTACT SALES
+            </a>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
   );
 }

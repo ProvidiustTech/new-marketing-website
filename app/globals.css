@@ -68,17 +68,23 @@ body {
   overflow-x: clip;
 }
 
-/* The page is authored on a fixed design canvas (1440 desktop / 390 mobile)
-   and scaled to the viewport, so every measurement matches the design. */
-#stage {
-  zoom: var(--z, 1);
-}
-
 .no-scrollbar {
   scrollbar-width: none;
 }
 .no-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+/* One repeat of the review set: card widths differ between phone and desktop. */
+.reviews-track {
+  --marquee-distance: 1718px;
+  --marquee-duration: 44s;
+}
+@media (min-width: 768px) {
+  .reviews-track {
+    --marquee-distance: 1847px;
+    --marquee-duration: 48s;
+  }
 }
 
 .marquee-paused:hover .animate-marquee {

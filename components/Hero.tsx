@@ -3,41 +3,37 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import CtaButton from "./CtaButton";
-import Dashboard from "./Dashboard";
 import { EASE, Words } from "./motion";
 
 /* eslint-disable @next/next/no-img-element */
 
 const NewMessage = () => (
-  <div className="flex shrink-0 items-center justify-center rounded-[8px] bg-[#2563eb] p-[8px] font-sans text-[14px] font-medium leading-none text-white whitespace-nowrap">
+  <div className="flex shrink-0 items-center justify-center rounded-lg bg-[#2563eb] px-2.5 py-1.5 font-sans text-[12px] font-medium leading-none text-white whitespace-nowrap md:text-[13px]">
     + New Message
   </div>
 );
 
 const AppIdentity = ({ color, icon, name }: { color: string; icon: string; name: string }) => (
-  <div className="flex shrink-0 items-center gap-[12px]">
-    <div
-      className="flex size-[24px] shrink-0 items-center justify-center rounded-[6px]"
-      style={{ background: color }}
-    >
-      <img alt="" src={`/icons/${icon}.svg`} className="size-[14px]" />
+  <div className="flex shrink-0 items-center gap-2.5">
+    <div className="flex size-6 shrink-0 items-center justify-center rounded-md" style={{ background: color }}>
+      <img alt="" src={`/icons/${icon}.svg`} className="size-3.5" />
     </div>
-    <div className="flex flex-col items-start gap-px whitespace-nowrap">
-      <p className="text-[11px] font-semibold text-[#171717]">{name}</p>
-      <p className="text-[8px] text-[#989898]">Providius Tech</p>
+    <div className="flex flex-col items-start whitespace-nowrap">
+      <p className="text-[12px] font-semibold text-[#171717]">{name}</p>
+      <p className="text-[9px] text-[#989898]">Providius Tech</p>
     </div>
   </div>
 );
 
 const Pill = ({ className, children }: { className: string; children: string }) => (
-  <div className={`flex items-start rounded-[4px] px-[8px] py-[2px] text-[9px] font-semibold whitespace-nowrap ${className}`}>
+  <span className={`rounded px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap ${className}`}>
     {children}
-  </div>
+  </span>
 );
 
 // Each channel window slides up out of the one in front of it.
-const windowIn = (delay: number, from: number) => ({
-  initial: { y: from, opacity: 0 },
+const windowIn = (delay: number) => ({
+  initial: { y: 60, opacity: 0 },
   animate: { y: 0, opacity: 1 },
   transition: { duration: 1, delay, ease: EASE },
 });
@@ -45,34 +41,32 @@ const windowIn = (delay: number, from: number) => ({
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const bgY = useTransform(scrollYProgress, [0, 1], [0, 90]);
-  const copyY = useTransform(scrollYProgress, [0, 1], [0, -40]);
-  const workY = useTransform(scrollYProgress, [0, 1], [0, -70]);
+  const bgY = useTransform(scrollYProgress, [0, 1], [0, 80]);
 
   return (
     <section
       id="top"
       ref={ref}
-      className="relative mx-auto mt-[28px] h-[818px] w-[1380px] overflow-clip rounded-[24px] bg-[#0b5fd0] max-md:mt-[10px] max-md:h-[478px] max-md:w-[370px] max-md:rounded-[20px]"
+      className="relative mx-auto mt-3 w-[calc(100%-1.5rem)] max-w-[1280px] overflow-hidden rounded-[28px] bg-[#0b5fd0] px-5 pb-0 pt-24 md:mt-5 md:w-[calc(100%-5rem)] md:rounded-[36px] md:px-10 md:pb-0 md:pt-28"
     >
-      <motion.div className="absolute -inset-y-[50px] inset-x-0" style={{ y: bgY }}>
+      <motion.div className="pointer-events-none absolute -inset-y-12 inset-x-0" style={{ y: bgY }}>
         <motion.img
           alt=""
           src="/img/hero-bg.webp"
-          className="size-full"
-          initial={{ scale: 1.12, opacity: 0 }}
+          className="size-full object-cover"
+          initial={{ scale: 1.1, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.8, ease: EASE }}
         />
       </motion.div>
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a3f7a]/30 via-transparent to-[#0a3f7a]/60" />
 
-      {/* Copy */}
-      <motion.div className="absolute inset-x-0 top-0 z-10 text-center text-white" style={{ y: copyY }}>
-        <h1 className="absolute inset-x-0 top-[172px] text-[56px] font-semibold tracking-[-1.325px] max-md:top-[96px] max-md:text-[36px]">
-          <span className="block leading-[54.88px] max-md:leading-[38px]">
+      <div className="relative z-10 mx-auto flex max-w-[860px] flex-col items-center text-center text-white">
+        <h1 className="text-[40px] font-semibold leading-[1.05] tracking-[-1.4px] sm:text-[52px] md:text-[64px]">
+          <span className="block">
             <Words onView={false} delay={0.3} segments={[{ text: "New Frontiers In" }]} />
           </span>
-          <span className="block leading-[56px] text-[#a8efff] max-md:leading-[40px] md:-mt-[5.88px]">
+          <span className="block text-[#a8efff]">
             <Words onView={false} delay={0.45} segments={[{ text: "Customer Support" }]} />
           </span>
         </h1>
@@ -80,108 +74,80 @@ export default function Hero() {
           initial={{ opacity: 0, y: 14, filter: "blur(6px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 0.9, delay: 0.7, ease: EASE }}
-          className="absolute left-1/2 top-[288px] w-[568px] -translate-x-1/2 text-[17px] leading-[20.06px] max-md:top-[188px] max-md:w-[320px] max-md:text-[14px] max-md:leading-[18px]"
+          className="mt-5 max-w-[560px] text-[16px] leading-[1.55] text-white/90 md:mt-6 md:text-[19px]"
         >
           Grow your business without growing support.
-          <br />
-          AI agents, channels, and infrastructure that scales with you.
+          <br className="hidden sm:block" /> AI agents, channels, and infrastructure that scales with you.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 14, scale: 0.94 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.85, ease: EASE }}
-          className="absolute left-[603px] top-[350px] max-md:left-[80px] max-md:top-[262px]"
+          className="mt-8"
         >
-          <CtaButton />
+          <CtaButton href="https://dashboard.providiustech.com" />
         </motion.div>
-      </motion.div>
+      </div>
 
-      {/* Product workspace */}
-      <motion.div
-        style={{ y: workY }}
-        className="absolute left-[108px] top-[387px] h-[567px] w-[1165px] max-md:left-[34px] max-md:top-[1040px] max-md:[zoom:0.3]"
-      >
-        <div className="absolute left-[40px] top-[42px] h-[132px] w-[1074px] overflow-clip font-inter">
-          {/* WhatsApp */}
+      {/* Product workspace preview: three channel windows stacked over the live dashboard */}
+      <div className="relative z-10 mx-auto mt-10 w-full max-w-[1000px] md:mt-12">
+        <div className="flex flex-col">
           <motion.div
-            {...windowIn(1.5, 132)}
-            className="absolute left-[53px] top-0 flex h-[40px] w-[968px] flex-col rounded-t-[14px] border border-[#eee] bg-white px-[24px]"
+            {...windowIn(1.5)}
+            className="relative z-30 mx-auto flex w-[94%] items-center gap-3 rounded-t-2xl border border-[#eee] bg-white px-4 py-3 md:w-[96%] md:px-6"
           >
-            <div className="flex h-[40px] w-full items-center">
-              <AppIdentity color="#25d366" icon="message-circle" name="WhatsApp" />
-              <div className="flex min-w-px flex-1 items-center gap-[4px] p-[9px]">
-                <div className="flex items-center gap-[8px]">
-                  <Pill className="bg-[#e8f5e9] text-[#2e7d32]">Active</Pill>
-                  <p className="text-[10px] text-[#7d7d7d] whitespace-nowrap">12:45 PM</p>
-                </div>
-                <img alt="" src="/icons/shield-check.svg" className="size-[9px]" />
-              </div>
-              <div className="flex shrink-0 items-center gap-[6px] pr-[9px]">
-                <img alt="" src="/img/collab-wa.webp" className="h-[18px] w-[69px] rounded-[5px]" />
-                <div className="flex h-[26px] w-[44px] items-center justify-center rounded-[8px] border border-[#eee] bg-white text-[10px] text-[#171717]">
-                  Share
-                </div>
-                <NewMessage />
-              </div>
+            <AppIdentity color="#25d366" icon="message-circle" name="WhatsApp" />
+            <div className="hidden items-center gap-2 md:flex">
+              <Pill className="bg-[#e8f5e9] text-[#2e7d32]">Active</Pill>
+              <p className="text-[11px] text-[#7d7d7d]">12:45 PM</p>
+            </div>
+            <div className="ml-auto flex items-center gap-3">
+              <img alt="" src="/img/collab-wa.webp" className="hidden h-[18px] w-[69px] rounded md:block" />
+              <NewMessage />
             </div>
           </motion.div>
-          {/* Facebook */}
+
           <motion.div
-            {...windowIn(1.35, 92)}
-            className="absolute left-[28px] top-[40px] flex h-[43px] w-[1018px] flex-col rounded-t-[14px] border border-[#eee] bg-[#fafafa]"
+            {...windowIn(1.35)}
+            className="relative z-20 mx-auto -mt-2 flex w-[97%] items-center gap-3 rounded-t-2xl border border-[#eee] bg-[#fafafa] px-4 py-2.5 md:px-6"
           >
-            <div className="flex h-[43px] w-full items-center px-[24px]">
-              <AppIdentity color="#1877f2" icon="facebook" name="Facebook" />
-              <p className="min-w-px flex-1 text-[14px] font-semibold text-[#414141] whitespace-pre">
-                {"   September "}
-                <span className="font-normal text-[#c4c4c4]">2026</span>
-              </p>
-              <div className="flex w-[219px] shrink-0 items-center gap-[12px] pr-[12px]">
-                <div className="flex items-center gap-[8px]">
-                  <Pill className="bg-[#f3f4f6] text-[#6b7280]">Idle</Pill>
-                  <p className="text-[10px] text-[#7d7d7d] whitespace-nowrap">Yesterday</p>
-                </div>
-                <img alt="" src="/icons/chevron-left.svg" className="size-[10px]" />
-                <img alt="" src="/icons/chevron-right.svg" className="size-[10px]" />
-                <div className="flex h-[26px] w-[47px] shrink-0 items-center justify-center rounded-[8px] border border-[#eee] bg-white text-[10px] text-[#171717]">
-                  Today
-                </div>
-              </div>
+            <AppIdentity color="#1877f2" icon="facebook" name="Facebook" />
+            <p className="hidden text-[13px] font-semibold text-[#414141] md:block">
+              September <span className="font-normal text-[#c4c4c4]">2026</span>
+            </p>
+            <div className="ml-auto flex items-center gap-2">
+              <Pill className="bg-[#f3f4f6] text-[#6b7280]">Idle</Pill>
+              <p className="hidden text-[11px] text-[#7d7d7d] sm:block">Yesterday</p>
             </div>
-            <div className="absolute left-[408px] top-[41px] h-[2px] w-[39px] rounded-[2px] bg-[#ffb3a7]" />
           </motion.div>
-          {/* Gmail */}
+
           <motion.div
-            {...windowIn(1.2, 49)}
-            className="absolute left-0 top-[83px] flex h-[49px] w-[1074px] flex-col rounded-t-[14px] border border-[#eee] bg-white px-[24px]"
+            {...windowIn(1.2)}
+            className="relative z-10 mx-auto -mt-2 flex w-full items-center gap-3 rounded-t-2xl border border-[#eee] bg-white px-4 py-3 md:px-6"
           >
-            <div className="flex h-[49px] w-full items-center">
-              <AppIdentity color="#ea4335" icon="mail" name="Gmail" />
-              <div className="flex min-w-px flex-1 items-center gap-[7px] p-[10px]">
-                <p className="text-[11px] text-[#7d7d7d]">General</p>
-                <img alt="" src="/icons/chevron-right.svg" className="size-[10px]" />
-              </div>
-              <div className="flex shrink-0 items-center gap-[7px] pr-[10px]">
-                <img alt="" src="/img/collab-gmail.webp" className="h-[20px] w-[76px] rounded-[5px]" />
-                <div className="flex items-center gap-[8px]">
-                  <Pill className="bg-[#fff3e0] text-[#e65100]">Pending</Pill>
-                  <p className="text-[10px] text-[#7d7d7d] whitespace-nowrap">2 mins ago</p>
-                </div>
-                <NewMessage />
-              </div>
+            <AppIdentity color="#e1306c" icon="instagram" name="Instagram" />
+            <p className="hidden text-[12px] text-[#7d7d7d] md:block">General</p>
+            <div className="ml-auto flex items-center gap-2">
+              <Pill className="bg-[#fff3e0] text-[#e65100]">Pending</Pill>
+              <p className="hidden text-[11px] text-[#7d7d7d] sm:block">2 mins ago</p>
             </div>
+          </motion.div>
+
+          {/* Dashboard screenshot, cropped by the hero's bottom edge */}
+          <motion.div
+            initial={{ y: 120, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 1.2, delay: 0.9, ease: EASE }}
+            className="aspect-[16/9] overflow-hidden rounded-b-2xl border border-t-0 border-[#e5e5e5] bg-white shadow-[0_30px_80px_-30px_rgba(3,20,50,0.5)]"
+          >
+            <img
+              src="/img/hero-dashboard.webp"
+              alt="The Providiustech dashboard showing AI-handled conversations across Instagram, WhatsApp, Messenger, Email and Telegram"
+              className="block h-full w-full object-cover object-top"
+            />
           </motion.div>
         </div>
-
-        <motion.div
-          initial={{ y: 140, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 1.2, delay: 0.9, ease: EASE }}
-          className="absolute left-[9px] top-[174px]"
-        >
-          <Dashboard delay={1} />
-        </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 }

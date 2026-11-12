@@ -25,10 +25,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: "#0b5fd0",
 };
-
-// Scales the fixed design canvas to the viewport before first paint.
-const fitScript = `(function(){var d=document.documentElement;function f(){var w=d.clientWidth;d.style.setProperty('--z',w<768?w/390:Math.min(w/1440,1.4))}f();addEventListener('resize',f)})()`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
@@ -38,14 +36,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <body>
-        <script dangerouslySetInnerHTML={{ __html: fitScript }} />
         <SmoothScroll>
-          <div
-            id="stage"
-            className="mx-auto w-[1440px] overflow-x-clip max-md:w-[390px]"
-          >
-            {children}
-          </div>
+          <div className="w-full overflow-x-clip">{children}</div>
         </SmoothScroll>
       </body>
     </html>

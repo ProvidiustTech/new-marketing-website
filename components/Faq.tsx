@@ -67,9 +67,7 @@ const faqs = [
 ];
 
 export default function Faq() {
-  const [active, setActive] = useState(1);
-  // Mirrors the design's first frame: the first thread is highlighted and already read.
-  const [highlight, setHighlight] = useState(0);
+  const [active, setActive] = useState(0);
   const [read, setRead] = useState<number[]>([0]);
   const [query, setQuery] = useState("");
 
@@ -82,176 +80,131 @@ export default function Faq() {
 
   const select = (i: number) => {
     setActive(i);
-    setHighlight(i);
     setRead((r) => (r.includes(i) ? r : [...r, i]));
   };
 
   const item = faqs[active];
-  let wordIndex = 0;
 
   return (
     <section
       id="faq"
-      className="relative mt-[100px] h-[854.38px] w-full overflow-clip rounded-tr-[120px] bg-[#0b0b0d] max-md:mt-[40px] max-md:h-auto max-md:rounded-tr-[56px] max-md:px-[10px] max-md:py-[48px]"
+      className="relative mt-20 w-full overflow-hidden rounded-[32px] bg-[#0b0b0d] text-white md:mt-28 md:rounded-[48px]"
     >
       <img
         alt=""
         src="/img/faq-bg.webp"
-        className="pointer-events-none absolute left-0 top-[-21.64%] h-[143.28%] w-full max-w-none max-md:top-0 max-md:h-full max-md:object-cover"
+        className="pointer-events-none absolute inset-0 size-full object-cover opacity-80"
       />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0b0b0d]/40 via-transparent to-[#0b0b0d]" />
 
-      <Reveal
-        y={60}
-        duration={1.1}
-        className="absolute left-1/2 top-[140px] w-[1123px] -translate-x-1/2 max-md:relative max-md:left-0 max-md:top-0 max-md:w-full max-md:translate-x-0"
-      >
-        <div className="flex w-full flex-col items-start rounded-[16px] border border-white/20 bg-[rgba(31,31,31,0.53)] p-px shadow-[0px_2px_5px_0px_rgba(0,0,0,0.7)] backdrop-blur-[5px]">
-          {/* Window bar */}
-          <div className="relative h-[27px] w-full shrink-0">
-            <span className="absolute left-[12.35px] top-[3.9px] size-[19.57px] rounded-full bg-[#f7f7f7]" />
-            <span className="absolute left-[42.19px] top-[3.9px] size-[19.57px] rounded-full bg-[#f7f7f7]" />
-            <p className="absolute left-[70.16px] top-[4px] font-inter text-[16px] font-semibold leading-[normal] text-[#d8d8d8]">
-              FAQs
-            </p>
+      <Reveal y={60} duration={1.1} className="relative mx-auto max-w-[1100px] px-4 py-12 sm:px-8 md:py-20">
+        <div className="mb-8 px-1 text-center md:mb-12">
+          <p className="text-[12px] font-semibold uppercase tracking-[2px] text-[#20edff]">FAQs</p>
+          <h2 className="mt-3 text-[30px] font-semibold leading-[1.15] tracking-[-0.6px] sm:text-[38px] md:text-[44px]">
+            Questions, answered
+          </h2>
+        </div>
+
+        <div className="flex flex-col overflow-hidden rounded-[24px] border border-white/15 bg-[rgba(31,31,31,0.55)] shadow-[0_20px_60px_-20px_rgba(0,0,0,0.7)] backdrop-blur-md md:flex-row">
+          {/* Thread list */}
+          <div className="flex flex-col gap-3 border-b border-white/10 p-4 md:w-[380px] md:shrink-0 md:border-b-0 md:border-r md:p-5">
+            <label className="flex h-11 items-center gap-3 rounded-2xl border border-white/15 bg-black/30 px-4 transition-colors focus-within:border-white/50">
+              <img alt="" src="/icons/faq-search.svg" className="size-4 opacity-70" />
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search questions"
+                aria-label="Search questions"
+                className="min-w-0 flex-1 bg-transparent text-[15px] text-white outline-none placeholder:text-[#8a8a8a]"
+              />
+            </label>
+
+            <div
+              data-lenis-prevent
+              className="no-scrollbar flex max-h-[260px] flex-col gap-2 overflow-y-auto overscroll-contain pr-1 md:max-h-[420px]"
+            >
+              <AnimatePresence initial={false}>
+                {list.map((f) => {
+                  const isActive = f.i === active;
+                  const unread = !read.includes(f.i);
+                  return (
+                    <motion.button
+                      key={f.q}
+                      type="button"
+                      layout
+                      initial={{ opacity: 0, x: -12 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -12 }}
+                      transition={{ duration: 0.3, ease: EASE }}
+                      onClick={() => select(f.i)}
+                      aria-pressed={isActive}
+                      className={`flex w-full cursor-pointer items-start gap-3 rounded-2xl border p-4 text-left transition-colors duration-300 ${
+                        isActive
+                          ? "border-white/25 bg-white/15"
+                          : "border-white/10 bg-white/[0.04] hover:bg-white/10"
+                      }`}
+                    >
+                      <span className="mt-[7px] flex w-2 shrink-0 justify-center">
+                        <span
+                          className={`size-2 rounded-full bg-[#14b8a6] transition-opacity duration-300 ${
+                            unread && !isActive ? "opacity-100" : "opacity-0"
+                          }`}
+                        />
+                      </span>
+                      <span className="flex min-w-0 flex-1 flex-col gap-1">
+                        <span className="flex justify-between text-[12px] text-[#9a9a9a]">
+                          <span>{f.from}</span>
+                          <span>2m ago</span>
+                        </span>
+                        <span className="text-[15px] font-semibold leading-snug text-white">{f.q}</span>
+                      </span>
+                    </motion.button>
+                  );
+                })}
+              </AnimatePresence>
+              {list.length === 0 && (
+                <p className="px-2 py-8 text-center text-[14px] text-[#9a9a9a]">No questions match “{query}”.</p>
+              )}
+            </div>
           </div>
 
-          <div className="flex items-start gap-[91px] max-md:w-full max-md:flex-col max-md:gap-0">
-            {/* Thread list */}
-            <div className="shrink-0 px-[16px] pb-[12.79px] pt-[32px] max-md:w-full max-md:px-[10px] max-md:pt-[16px]">
-              <div
-                data-lenis-prevent
-                className="no-scrollbar h-[480px] w-[352px] overflow-y-auto overscroll-contain px-[4.8px] [mask-image:linear-gradient(to_bottom,transparent,#000_13%,#000_78%,transparent)] max-md:h-[300px] max-md:w-full"
+          {/* Reader */}
+          <div className="flex min-h-[320px] flex-1 flex-col gap-6 p-6 sm:p-8 md:p-10">
+            <div className="flex items-center gap-4">
+              <img
+                alt=""
+                src="/img/federico.webp"
+                className="size-12 shrink-0 rounded-full bg-[#717171] object-cover"
+              />
+              <div className="min-w-0">
+                <p className="text-[15px] text-white">Federico</p>
+                <p className="text-[13px] text-[#9a9a9a]">Reply-To · ProvidiusTech</p>
+              </div>
+            </div>
+
+            <div className="h-px w-full bg-white/10" />
+
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={active}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, filter: "blur(4px)" }}
+                transition={{ duration: 0.3, ease: EASE }}
+                className="flex flex-col gap-5"
               >
-                <div className="flex flex-col gap-[16px] pb-[60px]">
-                  <AnimatePresence initial={false}>
-                    {list.map((f) => {
-                      const isHighlighted = f.i === highlight;
-                      const unread = !read.includes(f.i);
-                      return (
-                        <motion.button
-                          key={f.q}
-                          type="button"
-                          layout
-                          initial={{ opacity: 0, x: -16 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: -16 }}
-                          transition={{ duration: 0.4, ease: EASE }}
-                          whileHover={{ x: 4 }}
-                          whileTap={{ scale: 0.985 }}
-                          onClick={() => select(f.i)}
-                          aria-pressed={f.i === active}
-                          className={`my-[3.2px] flex h-[80px] w-full shrink-0 cursor-pointer items-center rounded-[16px] border border-[rgba(254,254,254,0.2)] p-[16px] text-left transition-colors duration-300 ${
-                            isHighlighted
-                              ? "bg-[rgba(61,61,61,0.79)]"
-                              : "bg-[rgba(31,31,31,0.79)] hover:bg-[rgba(45,45,45,0.79)]"
-                          }`}
-                        >
-                          {f.i !== 0 && (
-                            <span className="flex h-[27.83px] w-[16px] shrink-0 items-start">
-                              <span
-                                className={`size-[7px] rounded-full bg-[#14b8a6] transition-opacity duration-300 ${unread && !isHighlighted ? "opacity-100" : "opacity-0"}`}
-                              />
-                            </span>
-                          )}
-                          <span className="flex min-w-0 flex-1 flex-col gap-[2.195px]">
-                            <span className="flex justify-between text-[12.8px] leading-[17.28px] text-[#717171]">
-                              <span>{f.from}</span>
-                              <span>2m ago</span>
-                            </span>
-                            <span className="truncate font-inter text-[16px] font-semibold leading-[normal] tracking-[-0.3px] text-[#fefefe]">
-                              {f.q}
-                            </span>
-                          </span>
-                        </motion.button>
-                      );
-                    })}
-                  </AnimatePresence>
-                  {list.length === 0 && (
-                    <p className="px-[12px] pt-[70px] text-[14px] text-[#717171]">
-                      No questions match “{query}”.
-                    </p>
-                  )}
+                <h3 className="text-[22px] font-semibold leading-snug tracking-[-0.4px] text-white md:text-[26px]">
+                  {item.q}
+                </h3>
+                <div className="flex flex-col gap-3 text-[16px] leading-[1.65] text-[#c4c4c4] md:text-[18px]">
+                  {item.a.map((line, l) => (
+                    <p key={l}>{line}</p>
+                  ))}
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </AnimatePresence>
 
-            {/* Reader */}
-            <div className="flex w-[576px] shrink-0 flex-col items-start gap-[10px] max-md:w-full max-md:px-[10px] max-md:pb-[10px]">
-              <label className="flex h-[38px] w-full items-center justify-between rounded-[16px] border border-[rgba(254,254,254,0.2)] bg-[rgba(31,31,31,0.79)] px-[16px] transition-colors duration-300 focus-within:border-white/50">
-                <input
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Have a question for us ?"
-                  aria-label="Search questions"
-                  className="min-w-0 flex-1 bg-transparent font-inter text-[16px] font-medium tracking-[-0.3px] text-[#fefefe] outline-none placeholder:text-[#717171]"
-                />
-                <img alt="" src="/icons/faq-search.svg" className="size-[16px]" />
-              </label>
-
-              <div className="flex min-h-[407px] w-full flex-col items-start gap-[15px] p-[30.4px] font-inter max-md:min-h-[360px] max-md:p-[16px]">
-                <div className="flex h-[75.2px] w-full items-start gap-[16px]">
-                  <img
-                    alt=""
-                    src="/img/federico.webp"
-                    className="size-[48px] shrink-0 rounded-full bg-[#717171] object-cover"
-                  />
-                  <div className="relative h-[56.64px] flex-1">
-                    <p className="absolute left-0 top-[-1px] text-[16px] leading-[normal] tracking-[-0.3px] text-[#fefefe]">
-                      Federico
-                    </p>
-                    <div className="absolute inset-x-0 top-[32.48px]">
-                      <p className="text-[14px] leading-[1.2] tracking-[-0.2px] text-[#717171]">Reply-To</p>
-                      <AnimatePresence mode="wait">
-                        <motion.p
-                          key={active}
-                          initial={{ opacity: 0, y: 6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -6 }}
-                          transition={{ duration: 0.25 }}
-                          className="mt-[0.6px] font-sans text-[14.4px] font-semibold leading-[17.28px] text-[#fefefe]"
-                        >
-                          {item.q}
-                        </motion.p>
-                      </AnimatePresence>
-                    </div>
-                  </div>
-                </div>
-                <div className="h-[18px] w-full pt-px">
-                  <div className="h-px w-full rounded-[14.4px] bg-[#717171] opacity-30" />
-                </div>
-                <div className="w-[538px] pb-[16px] text-[24px] leading-[normal] tracking-[-0.75px] text-[#7e7e7e] max-md:w-full max-md:text-[18px]">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={active}
-                      exit={{ opacity: 0, filter: "blur(4px)" }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      {item.a.map((line, l) => (
-                        <p key={l} className="whitespace-pre-wrap">
-                          {line.split(/(\s+)/).map((token, t) =>
-                            /^\s+$/.test(token) || token === "" ? (
-                              token
-                            ) : (
-                              <motion.span
-                                key={t}
-                                className="inline-block"
-                                initial={{ opacity: 0, y: 6, filter: "blur(4px)" }}
-                                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.4, delay: 0.1 + wordIndex++ * 0.022, ease: EASE }}
-                              >
-                                {token}
-                              </motion.span>
-                            ),
-                          )}
-                        </p>
-                      ))}
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
-                <p className="text-[14px] leading-[1.2] tracking-[-0.2px] text-[#717171]">Sent from my iPhone</p>
-              </div>
-            </div>
+            <p className="mt-auto pt-4 text-[13px] text-[#7a7a7a]">Sent from ProvidiusTech Support</p>
           </div>
         </div>
       </Reveal>
