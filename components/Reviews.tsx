@@ -2,15 +2,27 @@ import { Reveal, Words } from "./motion";
 
 /* eslint-disable @next/next/no-img-element */
 
-function Quote() {
+const QUOTES = [
+  {
+    text: "It has been very, very helpful, honestly.",
+    role: "Business owner, delivery operations",
+  },
+  {
+    text: "The AI did not just respond. I'm also able to get notified when someone needs personal attention.",
+    role: "Business owner, delivery operations",
+  },
+  {
+    text: "It has really helped me. It's really helped me.",
+    role: "Business owner, delivery operations",
+  },
+];
+
+function Quote({ text, role }: { text: string; role: string }) {
   return (
     <figure className="flex h-[400px] w-[340px] shrink-0 flex-col items-center justify-between rounded-[20px] bg-white p-7 shadow-[0_10px_30px_-10px_rgba(15,23,42,0.12)] transition-transform duration-500 ease-out hover:-translate-y-1.5 md:h-[418px] md:w-[384px]">
       <img alt="" src="/img/review-avatar.webp" className="size-11 rounded-full object-cover" />
-      <blockquote className="text-[17px] font-medium leading-[1.45] text-[#27272a]">
-        “We&apos;re handling 3× more customer conversations with the same team. ProvidiusTech&apos;s
-        AI agents are a game changer.”
-      </blockquote>
-      <figcaption className="text-[12px] font-bold text-[#a1a1aa]">Operations Lead, retail logistics</figcaption>
+      <blockquote className="text-[17px] font-medium leading-[1.45] text-[#27272a]">“{text}”</blockquote>
+      <figcaption className="text-[12px] font-bold text-[#a1a1aa]">{role}</figcaption>
     </figure>
   );
 }
@@ -36,9 +48,10 @@ function Set({ hidden }: { hidden?: boolean }) {
         style={{ backgroundImage: "linear-gradient(132deg, #fde68a 0%, #fbbf24 100%)" }}
       />
       <Photo src="review-1" w={346} tint="linear-gradient(to top, rgba(30,58,138,0.4), rgba(30,58,138,0))" />
-      <Quote />
+      <Quote {...QUOTES[0]} />
       <Photo src="review-2" w={272} tint="linear-gradient(to top, rgba(19,78,74,0.3), rgba(19,78,74,0))" />
-      <Quote />
+      <Quote {...QUOTES[1]} />
+      <Quote {...QUOTES[2]} />
     </div>
   );
 }

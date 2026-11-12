@@ -47,7 +47,7 @@ export default function Hero() {
     <section
       id="top"
       ref={ref}
-      className="relative mx-auto mt-3 w-[calc(100%-1.5rem)] max-w-[1280px] overflow-hidden rounded-[28px] bg-[#0b5fd0] px-5 pb-0 pt-24 md:mt-5 md:w-[calc(100%-5rem)] md:rounded-[36px] md:px-10 md:pb-0 md:pt-28"
+      className="relative mx-auto mt-3 w-[calc(100%-1.5rem)] max-w-[1440px] overflow-hidden rounded-[28px] bg-[#0b5fd0] px-5 pb-0 pt-24 md:mt-3 md:w-[calc(100%-2.5rem)] md:rounded-[36px] md:px-10 md:pb-0 md:pt-28"
     >
       <motion.div className="pointer-events-none absolute -inset-y-12 inset-x-0" style={{ y: bgY }}>
         <motion.img
