@@ -5,32 +5,61 @@ import { useRef } from "react";
 import CtaButton from "./CtaButton";
 import { EASE, Reveal, Words } from "./motion";
 
+/* eslint-disable @next/next/no-img-element */
+
+const COPY =
+  "A ready-made AI customer support infrastructure that connects your channels, automates responses, and scales with your business.";
+
 export default function Banner() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const scale = useTransform(scrollYProgress, [0, 1], [1.12, 1.02]);
-  const y = useTransform(scrollYProgress, [0, 1], [-14, 14]);
+  // Gentle parallax on desktop only; phones get the photo at its native scale so it stays crisp.
+  const scale = useTransform(scrollYProgress, [0, 1], [1.06, 1]);
+  const y = useTransform(scrollYProgress, [0, 1], [-10, 10]);
 
   return (
     <motion.section
       ref={ref}
-      initial={{ opacity: 0, y: 50, clipPath: "inset(6% 6% 6% 6% round 40px)" }}
-      whileInView={{ opacity: 1, y: 0, clipPath: "inset(0% 0% 0% 0% round 40px)" }}
+      initial={{ opacity: 0, y: 50, clipPath: "inset(6% 6% 6% 6% round 32px)" }}
+      whileInView={{ opacity: 1, y: 0, clipPath: "inset(0% 0% 0% 0% round 32px)" }}
       viewport={{ once: true, margin: "0px 0px -15% 0px" }}
       transition={{ duration: 1.2, ease: EASE }}
-      className="relative mx-auto mt-20 w-full max-w-[1240px] px-5 md:mt-28 md:px-10"
+      className="relative mx-auto mt-20 w-full max-w-[1229px] px-5 md:mt-24 md:px-10"
     >
-      <div className="relative isolate min-h-[520px] overflow-hidden rounded-[32px] bg-[#2b7fc4] text-white md:min-h-[480px] md:rounded-[48px]">
+      {/* Phone / small tablet: photo at its natural ratio, copy on a matching blue panel below */}
+      <div className="overflow-hidden rounded-[24px] bg-[#1d6fb8] text-white md:hidden">
+        <div className="relative">
+          <img
+            alt=""
+            src="/img/banner-bg.webp"
+            width={730}
+            height={291}
+            decoding="async"
+            className="block aspect-[730/291] w-full object-cover"
+          />
+          <h2 className="absolute bottom-3 left-5 text-[26px] font-medium leading-[1.05] tracking-[-0.8px] [text-shadow:0_2px_12px_rgba(6,40,90,0.45)] min-[420px]:text-[30px]">
+            <span className="block">Full control</span>
+            <span className="block">of your support</span>
+          </h2>
+        </div>
+        <div className="flex flex-col items-start gap-6 bg-gradient-to-b from-[#2a7fc6] to-[#1b5f9f] px-5 pb-7 pt-5">
+          <p className="text-[15px] leading-[1.55] text-white/95">{COPY}</p>
+          <CtaButton />
+        </div>
+      </div>
+
+      {/* Tablet and up: full-bleed photo, title left, copy + CTA right */}
+      <div className="relative isolate hidden aspect-[1149/452] min-h-[400px] overflow-hidden rounded-[24px] bg-[#2b7fc4] text-white md:block">
         <motion.img
           alt=""
           src="/img/banner-bg.webp"
-          className="absolute inset-0 -z-10 size-full object-cover object-[60%_40%] md:object-center"
+          className="absolute inset-0 -z-10 size-full object-cover object-center"
           style={{ scale, y }}
         />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#0a3f7a]/70 via-[#0a3f7a]/25 to-[#0a3f7a]/85 md:bg-gradient-to-r md:from-[#0a3f7a]/80 md:via-[#0a3f7a]/30 md:to-transparent" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#0a3f7a]/35 via-transparent to-[#0a3f7a]/35" />
 
-        <div className="flex h-full min-h-[520px] flex-col justify-between gap-10 p-7 sm:p-10 md:min-h-[480px] md:max-w-[620px] md:p-14">
-          <h2 className="text-[38px] font-medium leading-[1.05] tracking-[-1.2px] sm:text-[48px] md:text-[60px]">
+        <div className="flex h-full items-center justify-between gap-8 px-10 lg:px-[60px]">
+          <h2 className="text-[36px] font-medium leading-[1.05] tracking-[-1px] lg:text-[44px] xl:text-[48px]">
             <span className="block">
               <Words segments={[{ text: "Full control" }]} />
             </span>
@@ -39,10 +68,9 @@ export default function Banner() {
             </span>
           </h2>
 
-          <div className="flex flex-col items-start gap-7">
-            <Reveal delay={0.3} className="max-w-[460px] text-[16px] leading-[1.6] text-white/90 md:text-[19px]">
-              A ready-made AI customer support infrastructure that connects your channels, automates
-              responses, and scales with your business.
+          <div className="flex w-[250px] shrink-0 flex-col items-start gap-6 self-center pt-24 lg:w-[290px]">
+            <Reveal delay={0.3} className="text-[15px] leading-[1.4] text-white lg:text-[16px]">
+              {COPY}
             </Reveal>
             <Reveal delay={0.45}>
               <CtaButton />

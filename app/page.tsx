@@ -4,6 +4,7 @@ import Faq from "@/components/Faq";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
+import Industries from "@/components/Industries";
 import Nav from "@/components/Nav";
 import Partners from "@/components/Partners";
 import Reviews from "@/components/Reviews";
@@ -18,8 +19,9 @@ export default function Home() {
       <Stats />
       <HowItWorks />
       <Channels />
-      <Banner />
+      <Industries />
       <Reviews />
+      <Banner />
       <Faq />
       <Footer />
     </main>

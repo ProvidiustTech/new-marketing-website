@@ -74,10 +74,11 @@ export default function Hero() {
           initial={{ opacity: 0, y: 14, filter: "blur(6px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 0.9, delay: 0.7, ease: EASE }}
-          className="mt-5 max-w-[560px] text-[16px] leading-[1.55] text-white/90 md:mt-6 md:text-[19px]"
+          className="mt-5 max-w-[671px] text-[15px] leading-[1.45] text-white md:mt-6 md:text-[17px] md:leading-[20.06px]"
         >
-          Grow your business without growing support.
-          <br className="hidden sm:block" /> AI agents, channels, and infrastructure that scales with you.
+          Providius Tech gives your business AI-powered customer support agents that handle everyday
+          conversations across WhatsApp, web chat, Instagram, Telegram, Facebook and email, so you can
+          serve more customers without constantly expanding your support team.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 14, scale: 0.94 }}
@@ -125,7 +126,7 @@ export default function Hero() {
             {...windowIn(1.2)}
             className="relative z-10 mx-auto -mt-2 flex w-full items-center gap-3 rounded-t-2xl border border-[#eee] bg-white px-4 py-3 md:px-6"
           >
-            <AppIdentity color="#e1306c" icon="instagram" name="Instagram" />
+            <AppIdentity color="#ea4335" icon="mail" name="Gmail" />
             <p className="hidden text-[12px] text-[#7d7d7d] md:block">General</p>
             <div className="ml-auto flex items-center gap-2">
               <Pill className="bg-[#fff3e0] text-[#e65100]">Pending</Pill>

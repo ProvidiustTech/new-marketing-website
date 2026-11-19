@@ -33,14 +33,14 @@ export default function HowItWorks() {
         <motion.img alt="" src="/img/cyan-glow.webp" className="size-full object-cover" style={{ scale: glowScale }} />
       </div>
 
-      <div className="mx-auto max-w-[820px] px-2 pt-14 text-center text-[#1e293b] md:pt-20">
-        <h2 className="text-[30px] font-bold leading-[1.15] tracking-[-0.6px] sm:text-[36px] md:text-[44px]">
+      <div className="mx-auto max-w-[1166px] px-2 pt-14 text-center text-[#1e293b] md:pt-20">
+        <h2 className="text-[28px] font-bold leading-[1.2] sm:text-[34px] md:text-[38px]">
           <Words segments={[{ text: "How our AI customer support works" }]} />
         </h2>
-        <Reveal delay={0.15} className="mx-auto mt-5 max-w-[680px] text-[16px] leading-[1.6] md:text-[19px]">
+        <Reveal delay={0.15} className="mx-auto mt-6 font-jakarta text-[16px] leading-[1.45] sm:text-[19px] md:text-[24px] md:leading-[normal]">
           From the moment a customer sends a message to when it’s resolved, our AI understands the
           request, finds the right information from your knowledge base, responds instantly and
-          follows up, so you don’t have to.
+          follow up, so you don’t have to.
         </Reveal>
       </div>
 
@@ -53,14 +53,11 @@ export default function HowItWorks() {
             viewport={{ once: true, margin: "0px 0px -15% 0px" }}
             transition={{ duration: 1, delay: i * 0.12, ease: EASE }}
             whileHover="hover"
-            className="group relative flex flex-col overflow-hidden rounded-[28px] bg-[#06b6d4] shadow-[0_8px_30px_rgba(0,0,0,0.05)]"
+            className="group relative flex flex-col overflow-hidden rounded-[32px] bg-[#06b6d4] shadow-[0_8px_30px_rgba(0,0,0,0.04)]"
           >
             <div className="relative z-10 p-7 md:p-8">
-              <span className="mb-4 inline-grid size-8 place-items-center rounded-full bg-white/80 text-[13px] font-bold text-[#0e7490]">
-                {i + 1}
-              </span>
-              <h3 className="text-[21px] font-bold leading-[1.25] text-[#0f172a] md:text-[22px]">{s.title}</h3>
-              <p className="mt-3 text-[15px] leading-[1.55] text-[#0c4a5a] md:text-[16px]">{s.body}</p>
+              <h3 className="text-[22px] font-bold leading-[1.2] text-[#1a1a1a] md:text-[24px]">{s.title}</h3>
+              <p className="mt-3 text-[17px] leading-[1.3] text-black md:text-[20px]">{s.body}</p>
             </div>
 
             <div className="relative mt-auto h-[300px] overflow-hidden md:h-[340px]">
@@ -73,7 +70,8 @@ export default function HowItWorks() {
                 viewport={{ once: true, margin: "0px 0px -15% 0px" }}
                 transition={{ duration: 1.2, delay: 0.25 + i * 0.12, ease: EASE }}
               />
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#06b6d4] to-transparent" />
+              {/* Soft white fade the phones sink into, as in the design */}
+              <div className="pointer-events-none absolute -inset-x-6 -bottom-8 h-[230px] bg-[linear-gradient(to_bottom,rgba(255,255,255,0)_0%,rgba(255,255,255,0.5)_50%,#fff_70%)] blur-[10px]" />
             </div>
           </motion.article>
         ))}

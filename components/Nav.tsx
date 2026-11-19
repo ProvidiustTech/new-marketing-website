@@ -8,10 +8,10 @@ import { EASE } from "./motion";
 /* eslint-disable @next/next/no-img-element */
 
 const links = [
-  { label: "Home", href: "#top" },
-  { label: "Services", href: "#how-it-works" },
-  { label: "About us", href: "#about" },
-  { label: "Resources", href: "#faq" },
+  { label: "SERVICES", href: "#how-it-works" },
+  { label: "INDUSTRIES", href: "#industries" },
+  { label: "PRICING", href: "#about" },
+  { label: "RESOURCES", href: "#faq", chevron: true },
 ];
 
 /** Transparent over the hero, then a frosted bar once the page scrolls. */
@@ -29,28 +29,29 @@ export default function Nav() {
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.1, ease: EASE }}
-        className={`mx-auto flex max-w-[1240px] items-center justify-between gap-4 rounded-full border px-4 py-2.5 text-white transition-[background,box-shadow,border-color] duration-500 md:px-6 md:py-3 ${
+        className={`mx-auto flex max-w-[1048px] items-center justify-between gap-4 rounded-full border px-4 py-2.5 text-white transition-[background,box-shadow,border-color] duration-500 md:px-6 md:py-3 ${
           stuck
             ? "border-white/15 bg-[#06224a]/80 shadow-[0_12px_40px_-12px_rgba(3,20,50,0.55)] backdrop-blur-xl"
             : "border-transparent bg-transparent"
         }`}
       >
         <a href="#top" className="flex items-center gap-2.5" onClick={close}>
-          <img alt="" src="/img/logo-mark.png" className="h-9 w-[34px] object-contain" />
-          <span className="relative text-[22px] font-semibold tracking-[-0.4px] md:text-[26px]">
-            Providiustech
-            <sup className="absolute -right-[10px] top-[2px] text-[9px] font-normal leading-none">™</sup>
-          </span>
+          <img alt="Providiustech" src="/img/logo.png" width={720} height={135} className="h-[26px] w-auto md:h-[30px]" />
         </a>
 
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="hidden items-center gap-[35px] md:flex">
           {links.map((l) => (
             <a
               key={l.label}
               href={l.href}
-              className="group relative text-[13px] font-medium tracking-[0.3px] text-white/90 transition-colors hover:text-white"
+              className="group relative flex items-center gap-[9px] text-[12px] font-medium leading-[13.8px] tracking-[1px] text-white transition-opacity hover:opacity-80"
             >
               {l.label}
+              {l.chevron && (
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+                  <path d="M3 4.5 6 7.5l3-3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              )}
               <span className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-white/80 transition-transform duration-300 ease-out group-hover:scale-x-100" />
             </a>
           ))}
@@ -61,7 +62,7 @@ export default function Nav() {
             href="#contact"
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
-            className="hidden rounded-full bg-white px-5 py-2.5 text-[12px] font-semibold tracking-[0.2px] text-[#082249] sm:block"
+            className="hidden h-[35px] w-[142px] place-items-center rounded-[22px] bg-white text-[12px] font-semibold leading-[13.8px] tracking-[-0.24px] text-[#082249] sm:grid"
           >
             CONTACT SALES
           </motion.a>
@@ -94,7 +95,7 @@ export default function Nav() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.25, ease: EASE }}
-            className="mx-auto mt-2 flex max-w-[1240px] flex-col gap-1 rounded-3xl border border-white/15 bg-[#06224a]/90 p-3 text-white backdrop-blur-xl md:hidden"
+            className="mx-auto mt-2 flex max-w-[1048px] flex-col gap-1 rounded-3xl border border-white/15 bg-[#06224a]/90 p-3 text-white backdrop-blur-xl md:hidden"
           >
             {links.map((l) => (
               <a
