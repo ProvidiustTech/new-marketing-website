@@ -57,12 +57,12 @@
 }
 
 html {
-  background: #fff;
+  background: #fafafa;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: #fff;
+  background: #fafafa;
   color: #1f1f1f;
   font-family: var(--font-sans);
   overflow-x: clip;
@@ -84,21 +84,6 @@ body {
   .reviews-track {
     --marquee-distance: 1924px;
     --marquee-duration: 48s;
-  }
-}
-
-/* Channel fan: scaled-down strip on phones/tablets, overlapping fan at desktop. */
-.channel-card {
-  width: calc(var(--w) * 0.82);
-  height: calc(var(--h) * 0.82);
-  margin-top: calc(var(--top) * 0.3);
-}
-@media (min-width: 1280px) {
-  .channel-card {
-    width: var(--w);
-    height: var(--h);
-    margin-top: var(--top);
-    margin-left: -10px;
   }
 }
 
