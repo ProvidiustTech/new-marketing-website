@@ -5,7 +5,10 @@
  * `WHATSAPP_NUMBER` below. Local Nigerian format is fine ("0913 465 7970");
  * it is converted to international format (234…) automatically.
  */
-export const WHATSAPP_NUMBER = "09030987132"; // test number — swap to "0913 465 7970" when ready
+export const WHATSAPP_NUMBER = "0913 465 7970"; // Providius Tech Sales
+
+/** How the number is shown on the site. */
+export const PHONE_DISPLAY = "+234 913 465 7970";
 
 export const EMAIL = "support@providiustech.com";
 

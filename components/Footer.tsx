@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react";
 import { useState, type FormEvent } from "react";
-import { EMAIL, SOCIALS, WHATSAPP_NUMBER, whatsappLink } from "@/lib/site";
+import { EMAIL, PHONE_DISPLAY, SOCIALS, whatsappLink } from "@/lib/site";
 import { Reveal } from "./motion";
 
 /* eslint-disable @next/next/no-img-element */
@@ -185,7 +185,7 @@ export default function Footer() {
             <Heading>Contact us</Heading>
             <div className="flex flex-col gap-[7px] text-[11px] text-white/90">
               <a href={whatsappLink()} className="w-fit transition-colors hover:text-white">
-                WhatsApp: {WHATSAPP_NUMBER}
+                WhatsApp: {PHONE_DISPLAY}
               </a>
               <a href={`mailto:${EMAIL}`} className="w-fit break-all transition-colors hover:text-white">
                 {EMAIL}
