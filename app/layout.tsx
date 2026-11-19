@@ -19,7 +19,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "ProvidiusTech | New Frontiers In Customer Support",
   description:
-    "Grow your business without growing support. AI agents, channels, and infrastructure that scales with you.",
+    "Providius Tech gives your business AI-powered customer support agents that handle everyday conversations across WhatsApp, web chat, Instagram, Telegram, Facebook and email.",
 };
 
 export const viewport: Viewport = {

@@ -77,13 +77,28 @@ body {
 
 /* One repeat of the review set: card widths differ between phone and desktop. */
 .reviews-track {
-  --marquee-distance: 1718px;
+  --marquee-distance: 1520px;
   --marquee-duration: 44s;
 }
 @media (min-width: 768px) {
   .reviews-track {
-    --marquee-distance: 1847px;
+    --marquee-distance: 1924px;
     --marquee-duration: 48s;
+  }
+}
+
+/* Channel fan: scaled-down strip on phones/tablets, overlapping fan at desktop. */
+.channel-card {
+  width: calc(var(--w) * 0.82);
+  height: calc(var(--h) * 0.82);
+  margin-top: calc(var(--top) * 0.3);
+}
+@media (min-width: 1280px) {
+  .channel-card {
+    width: var(--w);
+    height: var(--h);
+    margin-top: var(--top);
+    margin-left: -10px;
   }
 }
 

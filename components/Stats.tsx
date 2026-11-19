@@ -41,9 +41,7 @@ export default function Stats() {
           }}
         >
           <div className="flex items-center gap-3">
-            <img alt="" src="/img/logo-mark-card.png" className="h-8 w-[26px] object-contain" />
-            <p className="text-[20px] font-semibold">Providiustech</p>
-            <span className="-mt-2 text-[8px]">™</span>
+            <img alt="Providiustech" src="/img/logo.png" width={720} height={135} className="h-[23px] w-auto" />
           </div>
 
           <div className="absolute right-7 top-7 grid size-10 place-items-center rounded-xl bg-white md:right-9 md:top-9">
@@ -109,7 +107,7 @@ export default function Stats() {
             />
             <p className="text-[15px] leading-[1.5] text-[#3c4a63]">
               “Our AI agents handle the busy work across channels, so your team can focus on what
-              matters most: growth.”
+              matters most growth.”
             </p>
           </div>
         </motion.div>
