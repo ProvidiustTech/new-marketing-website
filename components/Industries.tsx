@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { EASE, Reveal, Words } from "./motion";
 
 /* eslint-disable @next/next/no-img-element */
@@ -56,17 +56,20 @@ function Arrow({ dir, onClick }: { dir: "prev" | "next"; onClick: () => void }) 
 
 export default function Industries() {
   const track = useRef<HTMLDivElement>(null);
-  const scroll = (dir: 1 | -1) => {
-    const el = track.current;
-    if (!el) return;
-    el.scrollBy({ left: dir * (296 + 16), behavior: "smooth" });
+  const [offset, setOffset] = useState(0);
+  const ordered = industries.map((_, i) => industries[(i + offset) % industries.length]);
+
+  // The arrows (tablet and up) rotate the cards round in a loop; phones swipe the row.
+  const go = (dir: 1 | -1) => {
+    track.current?.scrollTo({ left: 0 });
+    setOffset((o) => (o + dir + industries.length) % industries.length);
   };
 
   return (
-    <section id="industries" className="mx-auto mt-20 w-full max-w-[1352px] px-5 font-jakarta md:mt-24 md:px-[60px]">
+    <section id="industries" className="mx-auto mt-20 w-full max-w-[1352px] px-5 font-jakarta md:mt-[100px] md:px-[60px]">
       <div className="flex items-start justify-between gap-6 pb-6 pt-8">
         <div className="flex max-w-[541px] flex-col gap-3">
-          <h2 className="text-[26px] font-bold leading-[1.08] text-[#171a20] md:text-[32px]">
+          <h2 className="text-[26px] font-bold leading-[1.08] text-[#171a20] md:min-h-[82px] md:text-[32px]">
             <Words segments={[{ text: "Customer Support that adapts to how your business operates." }]} />
           </h2>
           <Reveal delay={0.15} className="text-[15px] leading-[1.55] text-[#1e293b] md:text-[16px]">
@@ -76,8 +79,8 @@ export default function Industries() {
           </Reveal>
         </div>
         <div className="hidden shrink-0 gap-2 sm:flex">
-          <Arrow dir="prev" onClick={() => scroll(-1)} />
-          <Arrow dir="next" onClick={() => scroll(1)} />
+          <Arrow dir="prev" onClick={() => go(-1)} />
+          <Arrow dir="next" onClick={() => go(1)} />
         </div>
       </div>
 
@@ -85,13 +88,19 @@ export default function Industries() {
         ref={track}
         className="no-scrollbar -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-8 md:mx-0 md:px-0"
       >
-        {industries.map((it, i) => (
+        {ordered.map((it, i) => (
           <motion.article
             key={it.title}
+            layout
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "0px 0px -12% 0px" }}
-            transition={{ duration: 0.9, delay: i * 0.1, ease: EASE }}
+            transition={{
+              duration: 0.9,
+              delay: offset === 0 ? i * 0.1 : 0,
+              ease: EASE,
+              layout: { type: "spring", stiffness: 260, damping: 30 },
+            }}
             className="group flex h-[437px] w-[296px] shrink-0 snap-start flex-col overflow-hidden rounded-[12px] border border-[#e3e7ec] bg-[radial-gradient(120%_80%_at_50%_45%,#1d1c20_0%,#0e0e0e_100%)] shadow-[0_3px_8px_rgba(0,0,0,0.05)]"
           >
             <div className="h-[176px] shrink-0 overflow-hidden">
@@ -101,14 +110,14 @@ export default function Industries() {
                 className="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
               />
             </div>
-            <div className="flex flex-1 flex-col gap-5 px-4 pb-4 pt-4 text-white">
-              <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-5 px-4 pt-4 text-white">
+              <div className="flex min-h-[154px] flex-col gap-2">
                 <h3 className="text-[20px] font-bold leading-[1.15]">{it.title}</h3>
                 <p className="text-[14px] leading-[1.45] text-white/90">{it.body}</p>
               </div>
               <a
                 href="#contact"
-                className="mt-auto flex h-8 w-full items-center justify-center rounded-[24px] bg-[#2563eb] text-[14px] font-semibold text-white transition-colors hover:bg-[#1d4fd8]"
+                className="flex h-8 w-full items-center justify-center rounded-[24px] bg-[#2563eb] text-[14px] font-semibold text-white transition-colors hover:bg-[#1d4fd8]"
               >
                 Explore More
               </a>

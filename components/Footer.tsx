@@ -7,11 +7,16 @@ import { Reveal } from "./motion";
 
 /* eslint-disable @next/next/no-img-element */
 
-const quickLinks = [
-  { label: "Home", href: "#top" },
-  { label: "Services", href: "#how-it-works" },
-  { label: "About us", href: "#about" },
-  { label: "Resources", href: "#faq" },
+const infoLinks = [
+  { label: "Company", href: "#about" },
+  { label: "Products", href: "#how-it-works" },
+  { label: "Pricing", href: "#contact" },
+  { label: "Services", href: "#channels" },
+];
+
+const aboutLinks = [
+  { label: "Our Team", href: "#about" },
+  { label: "Contacts", href: "#contact" },
 ];
 
 const socials = [
@@ -43,7 +48,7 @@ const socials = [
 ];
 
 const Heading = ({ children }: { children: string }) => (
-  <p className="text-[12px] font-semibold uppercase tracking-[1.6px] text-[#5aa7ff]">{children}</p>
+  <p className="text-[14px] font-medium uppercase tracking-[0.4px] text-[#2f7bff]">{children}</p>
 );
 
 function Field({
@@ -60,14 +65,14 @@ function Field({
   required?: boolean;
 }) {
   return (
-    <label className="flex w-full flex-col gap-1.5 rounded-2xl border border-white/15 bg-white/[0.03] px-4 py-3 transition-colors focus-within:border-[#5aa7ff] hover:border-white/30">
-      <span className="text-[11px] font-medium uppercase tracking-[0.6px] text-white/45">{label}</span>
+    <label className="flex h-[50px] w-full flex-col justify-center gap-0.5 rounded-[10px] border border-white/20 px-3 transition-colors focus-within:border-white/80 hover:border-white/40">
+      <span className="text-[8px] font-medium uppercase tracking-[0.4px] text-white/55">{label}</span>
       <input
         name={name}
         type={type}
         required={required}
         autoComplete={autoComplete}
-        className="w-full bg-transparent text-[15px] text-white caret-[#5aa7ff] outline-none placeholder:text-white/30"
+        className="w-full bg-transparent text-[13px] text-white caret-white outline-none placeholder:text-white/30"
       />
     </label>
   );
@@ -111,87 +116,85 @@ export default function Footer() {
   };
 
   return (
-    <footer id="contact" className="relative mt-20 w-full overflow-hidden bg-[#111216] text-white md:mt-28">
-      <div className="mx-auto grid w-full max-w-[1240px] grid-cols-1 gap-12 px-5 py-16 md:grid-cols-[1.1fr_0.9fr] md:gap-16 md:px-10 md:py-24">
-        {/* Contact form → WhatsApp */}
-        <Reveal className="rounded-[28px] border border-white/10 bg-[#17181c] p-6 sm:p-8 md:p-10">
-          <Heading>Feedback</Heading>
-          <h2 className="mt-3 text-[28px] font-semibold leading-[1.2] tracking-[-0.6px] md:text-[34px]">
-            <span className="text-white/45">Seeking personalized support?</span> Request a message from
+    <footer id="contact" className="relative w-full bg-[#22242a] text-white">
+      <div className="mx-auto grid w-full max-w-[1240px] grid-cols-1 gap-12 px-5 pb-10 pt-14 md:grid-cols-[354px_1fr] md:gap-[116px] md:px-[66px] md:pb-6 md:pt-[58px]">
+        {/* Request form, emailed to the support inbox */}
+        <Reveal className="rounded-[12px] bg-[#1b1c21] px-[21px] pb-6 pt-[34px]">
+          <p className="text-[9px] font-medium uppercase tracking-[0.3px] text-[#2f7bff]">Feedback</p>
+          <h2 className="mt-[22px] text-[22px] font-normal leading-[1.45] tracking-[-0.3px]">
+            <span className="text-white/55">Seeking personalized support?</span> Request a message&nbsp; from
             our team
           </h2>
 
-          <form onSubmit={onSubmit} className="mt-8 flex flex-col gap-4">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Your name" name="name" autoComplete="name" />
-              <Field label="Email" name="email" type="email" autoComplete="email" />
-            </div>
-            <Field label="Phone (optional)" name="phone" type="tel" autoComplete="tel" required={false} />
-            <label className="flex w-full flex-col gap-1.5 rounded-2xl border border-white/15 bg-white/[0.03] px-4 py-3 transition-colors focus-within:border-[#5aa7ff] hover:border-white/30">
-              <span className="text-[11px] font-medium uppercase tracking-[0.6px] text-white/45">
-                How can we help? (optional)
-              </span>
-              <textarea
-                name="message"
-                rows={3}
-                className="w-full resize-none bg-transparent text-[15px] text-white caret-[#5aa7ff] outline-none placeholder:text-white/30"
-              />
-            </label>
+          <form onSubmit={onSubmit} className="mt-6 flex flex-col gap-[14px]">
+            <Field label="Your name" name="name" autoComplete="name" />
+            <Field label="Mail" name="email" type="email" autoComplete="email" />
 
-            <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <motion.button
-                type="submit"
-                disabled={status === "sending"}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="inline-flex cursor-pointer items-center justify-center rounded-full bg-[#146ef5] px-8 py-3 text-[15px] font-semibold text-white shadow-[0_10px_30px_-10px_rgba(20,110,245,0.7)] disabled:cursor-wait disabled:opacity-70"
-              >
-                {status === "sending" ? "Sending…" : "Send message"}
-              </motion.button>
-              <p
-                className={`min-h-[1.25rem] text-[13px] ${status === "error" ? "text-[#fca5a5]" : "text-white/60"}`}
-                role="status"
-                aria-live="polite"
-              >
-                {status === "sent" && "Thanks — your message has been sent to our team. ✓"}
-                {status === "error" && error}
-                {(status === "idle" || status === "sending") && "We reply to every message from support@providiustech.com."}
-              </p>
-            </div>
+            <motion.button
+              type="submit"
+              disabled={status === "sending"}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="mt-[9px] inline-flex h-9 w-fit cursor-pointer items-center justify-center rounded-full bg-[#146ef5] px-7 text-[12px] font-medium text-white disabled:cursor-wait disabled:opacity-70"
+            >
+              {status === "sending" ? "Sending…" : "Send a request"}
+            </motion.button>
+            <p
+              className={`min-h-4 text-[11px] ${status === "error" ? "text-[#fca5a5]" : "text-white/60"}`}
+              role="status"
+              aria-live="polite"
+            >
+              {status === "sent" && "Thanks — your request has been sent to our team. ✓"}
+              {status === "error" && error}
+            </p>
           </form>
+          <p className="mt-6 text-[9px] text-white/45">Privacy</p>
         </Reveal>
 
-        {/* Contact details + links */}
-        <Reveal delay={0.12} className="flex flex-col justify-between gap-12">
-          <div className="grid gap-10 sm:grid-cols-2">
-            <div className="flex flex-col gap-4">
-              <Heading>Quick links</Heading>
-              <nav className="flex flex-col gap-3 text-[15px] text-white/85">
-                {quickLinks.map((l) => (
-                  <a key={l.label} href={l.href} className="group relative w-fit transition-colors hover:text-white">
+        {/* Links, contact details and socials */}
+        <Reveal delay={0.12} className="relative flex flex-col gap-10 pt-[30px]">
+          <img
+            alt="Providiustech"
+            src="/img/footer-logo.png"
+            className="absolute right-0 top-[28px] hidden h-[41px] w-auto md:block"
+          />
+          <div className="grid grid-cols-2 gap-10 md:max-w-[480px] md:gap-[115px]">
+            <div className="flex flex-col gap-[22px]">
+              <Heading>Info</Heading>
+              <nav className="flex flex-col gap-[7px] text-[11px] text-white/90">
+                {infoLinks.map((l) => (
+                  <a key={l.label} href={l.href} className="w-fit transition-colors hover:text-white">
                     {l.label}
-                    <span className="absolute -bottom-px left-0 h-px w-full origin-left scale-x-0 bg-white/70 transition-transform duration-300 group-hover:scale-x-100" />
                   </a>
                 ))}
               </nav>
             </div>
-
-            <div className="flex flex-col gap-4">
-              <Heading>Contact us</Heading>
-              <div className="flex flex-col gap-3 text-[15px] text-white/85">
-                <a href={whatsappLink()} className="transition-colors hover:text-white">
-                  WhatsApp: {WHATSAPP_NUMBER}
-                </a>
-                <a href={`mailto:${EMAIL}`} className="break-all transition-colors hover:text-white">
-                  {EMAIL}
-                </a>
-              </div>
+            <div className="flex flex-col gap-[22px]">
+              <Heading>About us</Heading>
+              <nav className="flex flex-col gap-[7px] text-[11px] text-white/90">
+                {aboutLinks.map((l) => (
+                  <a key={l.label} href={l.href} className="w-fit transition-colors hover:text-white">
+                    {l.label}
+                  </a>
+                ))}
+              </nav>
             </div>
           </div>
 
-          <div className="flex flex-col gap-5">
-            <Heading>Follow us</Heading>
-            <div className="flex items-center gap-3">
+          <div className="flex flex-col gap-[22px]">
+            <Heading>Contact us</Heading>
+            <div className="flex flex-col gap-[7px] text-[11px] text-white/90">
+              <a href={whatsappLink()} className="w-fit transition-colors hover:text-white">
+                WhatsApp: {WHATSAPP_NUMBER}
+              </a>
+              <a href={`mailto:${EMAIL}`} className="w-fit break-all transition-colors hover:text-white">
+                {EMAIL}
+              </a>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <div className="flex items-center gap-[11px]">
               {socials.map((s) => (
                 <motion.a
                   key={s.label}
@@ -199,27 +202,17 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  whileHover={{ y: -4, backgroundColor: "rgba(255,255,255,0.12)" }}
+                  whileHover={{ y: -3, backgroundColor: "rgba(255,255,255,0.08)" }}
                   transition={{ type: "spring", stiffness: 320, damping: 18 }}
-                  className="grid size-12 place-items-center rounded-full border border-white/15 text-white"
+                  className="grid size-[45px] place-items-center rounded-full border border-white/15 text-white"
                 >
-                  <svg viewBox="0 0 24 24" className="size-5 fill-current" aria-hidden>
+                  <svg viewBox="0 0 24 24" className="size-[18px] fill-current" aria-hidden>
                     {s.icon}
                   </svg>
                 </motion.a>
               ))}
             </div>
-          </div>
-
-          <div className="flex flex-col gap-4 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-3">
-              <img alt="" src="/img/logo-mark.png" className="h-9 w-[34px] object-contain" />
-              <p className="relative text-[22px] font-semibold tracking-[-0.4px]">
-                Providiustech
-                <sup className="absolute -right-[10px] top-[2px] text-[9px] font-normal leading-none">™</sup>
-              </p>
-            </div>
-            <p className="text-[13px] text-white/45">© 2026 ProvidiusTech. All rights reserved.</p>
+            <p className="text-[8px] text-white/45">© 2026 — Copyright</p>
           </div>
         </Reveal>
       </div>

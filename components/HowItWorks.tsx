@@ -28,8 +28,8 @@ export default function HowItWorks() {
   const glowScale = useTransform(scrollYProgress, [0, 1], [1.12, 1]);
 
   return (
-    <section id="how-it-works" ref={ref} className="relative mx-auto mt-20 w-full max-w-[1240px] px-5 md:mt-28 md:px-10">
-      <div className="pointer-events-none absolute inset-x-5 inset-y-0 -z-10 overflow-hidden rounded-[32px] md:inset-x-10">
+    <section id="how-it-works" ref={ref} className="relative isolate mx-auto mt-20 w-full max-w-[1600px] px-5 md:mt-[100px] md:px-[50px]">
+      <div className="pointer-events-none absolute inset-x-5 inset-y-0 -z-10 overflow-hidden rounded-[32px] md:inset-x-[50px]">
         <motion.img alt="" src="/img/cyan-glow.webp" className="size-full object-cover" style={{ scale: glowScale }} />
       </div>
 
@@ -44,7 +44,7 @@ export default function HowItWorks() {
         </Reveal>
       </div>
 
-      <div className="mt-12 grid grid-cols-1 gap-5 pb-20 md:mt-16 md:grid-cols-3 md:gap-6">
+      <div className="mx-auto mt-12 grid max-w-[1340px] grid-cols-1 gap-5 px-3 pb-12 md:mt-[37px] md:grid-cols-3 md:gap-8 md:px-6 md:pb-16">
         {steps.map((s, i) => (
           <motion.article
             key={s.title}
