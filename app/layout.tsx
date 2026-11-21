@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Instrument_Sans, Inter, Plus_Jakarta_Sans } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll";
+import ZiziChat from "@/components/ZiziChat";
 import "./globals.css";
 
 const instrument = Instrument_Sans({
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SmoothScroll>
           <div className="w-full overflow-x-clip">{children}</div>
         </SmoothScroll>
+        <ZiziChat />
       </body>
     </html>
   );
