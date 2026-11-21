@@ -30,3 +30,20 @@ export function whatsappLink(message?: string): string {
   const base = `https://wa.me/${whatsappDigits()}`;
   return message ? `${base}?text=${encodeURIComponent(message)}` : base;
 }
+
+/**
+ * Zizi, the AI chat widget. Messages go to the Providius Tech platform's
+ * webchat endpoint under this organisation, and the platform's AI replies.
+ * The org id is a public identifier (it ships in the page anyway). The site's
+ * domain must be registered in the dashboard (Settings -> API Keys -> Webchat
+ * -> Website Domain) or the browser blocks the request (CORS).
+ */
+export const CHAT_WIDGET = {
+  apiUrl: process.env.NEXT_PUBLIC_CHAT_API_URL ?? "https://backend.providiustech.com",
+  orgId:
+    process.env.NEXT_PUBLIC_CHAT_ORG_ID ?? "791a2e38-d43e-4f36-b513-1ad32a2b7e03",
+  color: "#146EF5",
+  botName: "Zizi",
+  greeting: "Hi! I'm Zizi. How can we help you today?",
+  position: "right" as "left" | "right",
+};
